@@ -1,20 +1,9 @@
-        # match level:
-        #     case l if l <-0:
-        #         pass
-        #     case 1:
-        #         pass
-        #     case 2:
-        #         pass
-        #     case 3:
-        #         pass
-        #     case 4:
-        #         pass
-        #     case l if l >= 5:
-        #         pass
+"""Monster Hunter Wilds Damage Calculator"""
 
 class Build:
 
-    def __init__(self, base_raw=100, base_affinity=0,):
+    def __init__(self, name, base_raw=100, base_affinity=0,):
+        self.name = name
         self.base_raw = base_raw
         self.raw = base_raw
         self.affinity = base_affinity
@@ -140,3 +129,39 @@ class Build:
             case 1:
                 self.raw += 6
         return self
+
+    def black_eclipse(self, level=2):
+        match level:
+            case l if l <= 0:
+                pass
+            case 1:
+                self.affinity += 15
+            case 2:
+                self.raw += 15
+                self.affinity += 15
+        return self
+
+    def antivirus(self, level=3):
+        match level:
+            case l if l <= 0:
+                pass
+            case 1:
+                self.affinity += 3
+            case 2:
+                self.affinity += 6
+            case l if l >= 3:
+                self.affinity += 10
+        return self
+
+    def stats(self):
+        print(f'\n| {self.name} stats:')
+        print(f'| Raw: {self.raw}')
+        print(f'| Affinity: {self.affinity}')
+        print(f'| Critical Damage: {self.critical_damage}')
+        unadjusted_output = self.raw * (1 + ((self.affinity / 100) * self.critical_damage))
+        print(f'| Output: {unadjusted_output}\n')
+
+chatacabra_1 = Build('Chata Sheller IV', 210)
+chatacabra_2 = Build('Chata Sheller IV', 210)
+chatacabra_1.black_eclipse().antivirus().attack_boost().stats()
+chatacabra_2.black_eclipse().antivirus().stats()
